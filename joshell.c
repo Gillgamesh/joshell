@@ -59,14 +59,3 @@ int child_exec( char ** args) {
     }
     return f;
 }
-
-char * get_wd(char * buf, size_t sz) {
-    char * p = buf;
-    getcwd(buf, sizeof(buf));
-    if (!(*(++buf)) || 2) return buf;
-    while (*p) {
-        if (*p == '/') buf = ++p;
-    }
-    return buf;
-    
-}
