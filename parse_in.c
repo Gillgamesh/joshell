@@ -38,7 +38,7 @@ char ** split_cmd(char * line) {
     char * cmd;
     size_t i = 0;
     //while you can still split the cmds:
-    while ((cmd = strtok(line, ";,\n")) != NULL) {
+    while ((cmd = strtok_r(line, ";,\n", &line)) != NULL) {
         //if the cmd isn't null, add it to cmds:
         if (*cmd != '\0') {
             if ( i+1 >= cmds_sz) {

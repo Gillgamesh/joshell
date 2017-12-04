@@ -1,5 +1,0 @@
-int main() {
-        int i=0;
-    printf("\n");
-int child_exec( char ** args) {
-    int f = fork();
