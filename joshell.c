@@ -10,9 +10,10 @@ int main() {
     char buffer[256];
     char *buf = buffer;
     while (JOSHEL) {
-        fgets(buf, sizeof(buffer), stdin);
+        //fgets(buf, sizeof(buffer), stdin);
         char * input[32];
         int i=0;
+        buf = "ls -l";
         while (input[i++] = strsep(&buf, " "));
         if (!strcmp(input[0], "exit"))
             break; 
