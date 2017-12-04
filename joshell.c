@@ -7,17 +7,19 @@
 #include "I_go_to_the_gym.h"
 #define JOSHEL INT_MAX
 int main() {
-    char buffer[256];
-    char *buf = buffer;
+    char *buf;
     while (JOSHEL) {
-        //fgets(buf, sizeof(buffer), stdin);
-        char * input[32];
+        buf = read_in();
+        char * input[300002];
         int i=0;
-        buf = "ls -l";
-        while (input[i++] = strsep(&buf, " "));
+        char * arg;
+        while ((arg = strsep(&buf, " ")) != NULL) {
+            if (*arg != '\0') input[i++] = arg;
+        }
         if (!strcmp(input[0], "exit"))
             break; 
         child_exec(input);
+        free(buf);
     }
     printf("\n");
     return JOSHEL;
@@ -30,7 +32,7 @@ int child_exec( char ** args) {
     if (f) {
     } 
     else {
-        execvp((char *) args, args);
+        execvp(*args, args);
     }
     return f;
 }
