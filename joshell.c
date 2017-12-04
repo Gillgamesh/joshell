@@ -35,10 +35,10 @@ int main() {
                 }
             }
             child_exec(args);
-            //free(args);
+            free(args);
         }
-        //free(cmds);
-        //free(buf);
+        free(cmds);
+        free(buf);
     }
     printf("\n");
     return JOSHEL;
