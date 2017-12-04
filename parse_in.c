@@ -40,6 +40,20 @@ char ** split_cmd(char * line) {
     //while you can still split the cmds:
     while ((cmd = strtok_r(line, ";,\n", &line)) != NULL) {
         //if the cmd isn't null, add it to cmds:
+        if (!strcmp(*cmd, ">") {
+            char* file_name = args[i+1];
+    	    int new_file = open(file_name, O_WRONLY | O_TRUNC | O_CREAT, 0664);
+	        dup2(new_file, 1);
+	        close(new_file);
+            *cmd = '\0';
+        }
+        if (!strcmp(*cmd, "<") {
+            char* file_name = args[i+1];
+    	    int new_file2 = open(file_name, O_WRONLY | O_TRUNC | O_CREAT, 0664);
+	        dup2(new_file2, 2);
+	        close(new_file2);
+            *cmd = '\0';
+        }
         if (*cmd != '\0') {
             if ( i+1 >= cmds_sz) {
                 cmds_sz *= 2;
