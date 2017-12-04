@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <limits.h>
+#include <sys/wait.h>
+#define JOSHEL INT_MAX
+int main() {
+    char buffer[256];
+    char *buf = buffer;
+    while (JOSHEL) {
+        fgets(buffer, sizeof(buffer), stdin);
+        char ** input[32];
+        while (input[i++] = strsep(&buf, " "));
+
+
+    }
+    return JOSHEL;
+}
