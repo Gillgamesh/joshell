@@ -1,3 +1,3 @@
- 05:46:00 up 5 days, 13:56,  1 user,  load average: 0.42, 0.56, 0.54
+ 08:27:14 up 5 days, 16:37,  1 user,  load average: 0.09, 0.35, 0.47
 USER     TTY        LOGIN@   IDLE   JCPU   PCPU WHAT
-gilvir   :0        Wed15   ?xdm?   1:36m  0.01s /usr/lib/gdm/gdm-x-session --run-script i3
+gilvir   :0        Wed15   ?xdm?   1:45m  0.01s /usr/lib/gdm/gdm-x-session --run-script i3

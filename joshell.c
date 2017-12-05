@@ -99,12 +99,12 @@ int custom_exec(char ** args) {
             int tmp_out;
             tmp_in = dup(STDIN_FILENO);
             tmp_out = dup(STDOUT_FILENO);
-            dup2(fds[WRITE], STDOUT_FILENO);
-            dup2(fds[READ], STDIN_FILENO);
-            int f = child_exec(args);
-            int g = child_exec(args+i+1);
-            dup2(tmp_in, STDIN_FILENO);
+            dup2(fds[WRITE], STDIN_FILENO);
+            dup2(fds[READ], STDOUT_FILENO);
+            int g = custom_exec(args+i+1);
             dup2(tmp_out, STDOUT_FILENO);
+            int f = custom_exec(args);
+            dup2(tmp_in, STDIN_FILENO);
             return f;
 
         }
