@@ -15,6 +15,9 @@
 #define CD "cd"
 #define READ 0
 #define WRITE 1
+
+//char *** cut_in_half(char ** args, int i);
+
 int main() {
     char *buf;
     while (JOSHEL) {
@@ -90,31 +93,28 @@ int custom_exec(char ** args) {
             dup2(tmp_file, STDIN_FILENO);
             return f;
 
-        }
+        } /*
         if (!strcmp(args[i],"|")) {
             args[i] = NULL;
             char ** parsed1 = cut_in_half(args, i)[0];
             char ** parsed2 = cut_in_half(args, i)[1];
-            int fds[2];
-            pipe(fds);
-            int tmp_in;
-            int tmp_out;
-            tmp_in = dup(STDIN_FILENO);
-            tmp_out = dup(STDOUT_FILENO);
-            dup2(fds[WRITE], STDOUT_FILENO);
-            int f = custom_exec(args);
-            dup2(fds[READ], STDIN_FILENO);
-            int g = custom_exec(args+i+1);
-            dup2(tmp_out, STDOUT_FILENO);
-            dup2(tmp_in, STDIN_FILENO);
-            return f;
-
-        }
+	    FILE *fp = popen(, "r");
+	    if (!fp) {
+	      printf("ya dun goofed \n");
+	      return;
+	    }
+	    int a = dup(STDIN_FILENO);
+	    int old = dup2(fileno(fp), STDIN_FILENO);
+	    int f = custom_execs(parsed2);
+	    dup2(a, old);
+	    pclose(fp);
+	    return f;
+	    } */
 
     }
     return child_exec(args);
 }
-
+/*
 char *** cut_in_half(char ** args, int i) {
     char ** a[2];
     int x;
@@ -128,7 +128,7 @@ char *** cut_in_half(char ** args, int i) {
     }
     return a;
 }
-
+*/
 //returns child pid
 int child_exec( char ** args) {
     int f = fork();
