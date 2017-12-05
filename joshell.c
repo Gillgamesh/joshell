@@ -42,7 +42,6 @@ int main() {
             custom_exec(args);
             free(args);
         }
-        wait(NULL);
         free(cmds);
         free(buf);
     }
@@ -51,14 +50,14 @@ int main() {
 }
 int custom_exec(char ** args) {
     size_t i = -1;
-    while (args[++i]) {
+    while (args[++i] != NULL) {
         if (!strcmp(args[i],">")) {
             args[i] = NULL;
             int new_file = open(args[i+1],O_WRONLY | O_TRUNC | O_CREAT, 0644); //OPEN THE FILE AND REMEMBER TO ADD THE CLOSE BETWEEN THE LAST 2 DUP2s
             int tmp_file;
-            dup2(STDOUT_FILENO, tmp_file);
+            tmp_file = dup(STDOUT_FILENO);
             dup2(new_file, STDOUT_FILENO);
-            int f = child_exec(args);
+            int f = custom_exec(args);
             close(new_file);
             dup2(tmp_file, STDOUT_FILENO);
             return f;
@@ -68,7 +67,7 @@ int custom_exec(char ** args) {
             args[i] = NULL;
             int new_file = open(args[i+1],O_WRONLY | O_APPEND | O_CREAT, 0644);
             int tmp_file;
-            dup2(STDOUT_FILENO, tmp_file);
+            tmp_file=dup(STDOUT_FILENO);
             dup2(new_file, STDOUT_FILENO);
             int f = custom_exec(args);
             close(new_file);
@@ -84,9 +83,9 @@ int custom_exec(char ** args) {
                 return -1;
             }
             int tmp_file;
-            dup2(STDIN_FILENO, tmp_file);
+            tmp_file = dup(STDIN_FILENO);
             dup2(new_file, STDIN_FILENO);
-            int f = child_exec(args);
+            int f = custom_exec(args);
             close(new_file);
             dup2(tmp_file, STDIN_FILENO);
             return f;
@@ -98,10 +97,10 @@ int custom_exec(char ** args) {
             pipe(fds);
             int tmp_in;
             int tmp_out;
-            dup2(STDIN_FILENO, tmp_in);
-            dup2(STDOUT_FILENO, tmp_out);
+            tmp_in = dup(STDIN_FILENO);
+            tmp_out = dup(STDOUT_FILENO);
+            dup2(fds[WRITE], STDOUT_FILENO);
             dup2(fds[READ], STDIN_FILENO);
-            dup2(fds[WRITE], STDIN_FILENO);
             int f = child_exec(args);
             int g = child_exec(args+i+1);
             dup2(tmp_in, STDIN_FILENO);
@@ -110,7 +109,7 @@ int custom_exec(char ** args) {
 
         }
                 
-    }
+    } 
     return child_exec(args);
 }
 
@@ -118,7 +117,8 @@ int custom_exec(char ** args) {
 int child_exec( char ** args) {
     int f = fork();
     if (f) {
-        wait(NULL);
+        int wstatus;
+        waitpid(f, &wstatus, 00);
     } 
     else {
         int f = execvp(*args, args);

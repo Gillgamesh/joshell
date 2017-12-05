@@ -108,7 +108,7 @@ char ** split_cmd(char * line) {
  * returns an array of pointers to the arguments, in order. the returned pointer will NOT be the same as the pointer to the cmd.
  */
 char ** get_args(char * cmd) {
-  size_t args_sz = 32;
+  size_t args_sz = 64;
   char ** args = calloc(args_sz, sizeof(char));
   int i = 0;
   char * arg;
@@ -116,15 +116,15 @@ char ** get_args(char * cmd) {
     //if the arg isnt \0, add it to the args list.
     if (*arg != '\0') {
       if ( i+1 >= args_sz) {
-	args_sz *= 2;
-	void * tmp = realloc(args, args_sz * sizeof(char));
-	if (tmp != NULL) {
-	  args = (char **) tmp;
-	}
-	else {
-	  free(args);
-	  return NULL;
-	}
+          args_sz *= 2;
+          void * tmp = realloc(args, args_sz * sizeof(char));
+          if (tmp != NULL) {
+              args = (char **) tmp;
+          }
+          else {
+              free(args);
+              return NULL;
+          }
       }
       args[i++] = arg;
     }
