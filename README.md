@@ -57,5 +57,5 @@ The returned pointer will NOT be the same as the inputed pointer
 int custom_exec(char **);
 ```
 Wrapper function for child_exec
-Accounts for < and >
+Accounts for <, >> and >
 Tries to account for |, but doesn't really work
