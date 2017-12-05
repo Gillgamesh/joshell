@@ -40,11 +40,11 @@ int main() {
                 }
             } else
             custom_exec(args);
-        //    free(args);
+            free(args);
         }
         wait(NULL);
-        //free(cmds);
-        //free(buf);
+        free(cmds);
+        free(buf);
     }
     printf("\n");
     return JOSHEL;
