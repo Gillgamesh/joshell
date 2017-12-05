@@ -93,6 +93,8 @@ int custom_exec(char ** args) {
         }
         if (!strcmp(args[i],"|")) {
             args[i] = NULL;
+            char ** parsed1 = cut_in_half(args, i)[0];
+            char ** parsed2 = cut_in_half(args, i)[1];
             int fds[2];
             pipe(fds);
             int tmp_in;
@@ -108,9 +110,23 @@ int custom_exec(char ** args) {
             return f;
 
         }
-                
-    } 
+
+    }
     return child_exec(args);
+}
+
+char *** cut_in_half(char ** args, int i) {
+    char ** a[2];
+    int x;
+    for (x = 0; x < i; x++) {
+        a[0][x] = args[x];
+    }
+    x++; //LMFAO i'm writing it this way just to trigger you gilvir
+    while (args[x] != NULL) {
+        a[1][x-i] = args[x];
+        x++;
+    }
+    return a;
 }
 
 //returns child pid
@@ -119,7 +135,7 @@ int child_exec( char ** args) {
     if (f) {
         int wstatus;
         waitpid(f, &wstatus, 00);
-    } 
+    }
     else {
         int f = execvp(*args, args);
         if (f == -1) {
