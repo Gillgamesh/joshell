@@ -16,8 +16,6 @@
 #define READ 0
 #define WRITE 1
 
-//char *** cut_in_half(char ** args, int i);
-
 int main() {
     char *buf;
     while (JOSHEL) {
@@ -93,28 +91,29 @@ int custom_exec(char ** args) {
             dup2(tmp_file, STDIN_FILENO);
             return f;
 
-        } /*
+        }
         if (!strcmp(args[i],"|")) {
+            printf("ya dun goofed boy");
             args[i] = NULL;
             char ** parsed1 = cut_in_half(args, i)[0];
             char ** parsed2 = cut_in_half(args, i)[1];
-	    FILE *fp = popen(, "r");
-	    if (!fp) {
-	      printf("ya dun goofed \n");
-	      return;
+	          FILE *fp = popen(concat(parsed1), "r");
+	          if (!fp) {
+	              printf("ya dun goofed \n");
+	              return child_exec(args);
+	          }
+	          int a = dup(STDIN_FILENO);
+	          int old = dup2(fileno(fp), STDIN_FILENO);
+	          int f = custom_exec(parsed2);
+	          dup2(a, old);
+	          pclose(fp);
+	          return f;
 	    }
-	    int a = dup(STDIN_FILENO);
-	    int old = dup2(fileno(fp), STDIN_FILENO);
-	    int f = custom_execs(parsed2);
-	    dup2(a, old);
-	    pclose(fp);
-	    return f;
-	    } */
 
     }
     return child_exec(args);
 }
-/*
+
 char *** cut_in_half(char ** args, int i) {
     char ** a[2];
     int x;
@@ -126,9 +125,27 @@ char *** cut_in_half(char ** args, int i) {
         a[1][x-i] = args[x];
         x++;
     }
-    return a;
+    char *** b = malloc(sizeof(a));
+    b = a;
+    return b;
 }
-*/
+
+
+char * concat(char ** args) {
+    int ctr = 0;
+    int i = 0;
+    while (args[i] != NULL) {
+      ctr += sizeof(args[i]);
+      i++;
+    }
+    char *str = malloc(ctr);
+    i = 0;
+    while (args[i] != NULL) {
+      strcat(str, args[i]);
+    }
+    return str;
+}
+
 //returns child pid
 int child_exec( char ** args) {
     int f = fork();
